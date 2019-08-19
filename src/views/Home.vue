@@ -61,6 +61,14 @@ export default {
       // isOk是否通过 result是校验结果 没啥用
       this.$refs.loginForm.validate((isOk, result) => {
         if (isOk) {
+          this.$axios({
+            method: 'post',
+            url: '/authorizations',
+            data: this.formData
+            // get 的参数是用params
+          }).then(result => {
+            console.log(result.data.data)
+          })
           console.log('请求通过')
         }
       })
