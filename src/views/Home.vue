@@ -68,6 +68,8 @@ export default {
             // get 的参数是用params
           }).then(result => {
             console.log(result.data.data)
+            window.localStorage.setItem('user-info', JSON.stringify(result.data.data))
+            this.$router.push('./home')
           })
           console.log('请求通过')
         }
