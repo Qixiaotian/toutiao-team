@@ -7,10 +7,10 @@
           </lay-aside>
       </el-aside>
       <el-container>
-          <el-header>
+          <el-header style="height:55px">
             <lay-header></lay-header>
           </el-header>
-          <el-main>
+          <el-main style="padding:0 0;">
             <router-view></router-view>
           </el-main>
       </el-container>

@@ -73,7 +73,7 @@ export default {
 
 <style lang="less" scoped>
   .header {
-    margin: 10px 0;
+    margin: 9px;
     width: 100%;
     height: 40px;
     display: flex;

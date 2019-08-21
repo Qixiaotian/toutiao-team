@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from './views/index.vue'
 import Login from './views/login.vue'
+import Main from './components/home/main'
 
 // import dee from './components/HelloWorld'
 Vue.use(Router)
@@ -17,7 +18,10 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      component: Index
+      component: Index,
+      children: [
+        { path: '', component: Main }
+      ]
 
     }
     // {
