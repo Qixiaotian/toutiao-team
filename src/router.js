@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Index from './views/index.vue'
+import Login from './views/login.vue'
 
 // import dee from './components/HelloWorld'
 Vue.use(Router)
@@ -9,8 +10,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'login',
+      component: Login
+
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index
 
     }
     // {

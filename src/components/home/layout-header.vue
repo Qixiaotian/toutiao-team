@@ -1,0 +1,98 @@
+<template>
+  <div>
+    <el-row class="header" type="flex" justify="space-between">
+      <el-col :span="12">
+        <i class="el-icon-s-unfold"></i>
+        <span class="left-header">江苏传智播客教育科技股份有限公司</span>
+      </el-col>
+      <el-col :span="8" class="right">
+        <el-tooltip content="请输入内容" placement="bottom">
+          <el-input v-model="zz" size="small" placeholder="请输入内容" class="right-input">
+            <i class="el-icon-search el-input__icon" slot="prefix"></i>
+          </el-input>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="消息" placement="bottom">
+          <span>消息</span>
+        </el-tooltip>
+        <img :src="user.photo?user.photo:defaultImg" alt="" />
+
+        <el-dropdown trigger="click" @command=Msgfun>
+          <span class="el-dropdown-link">
+            {{user.name}}信息
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-item icon="el-icon-plus" command="account">个人信息</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-plus" command="git">Git的地址</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-plus-outline" command="out">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      user: {
+      },
+      defaultImg: require('../../assets/img/avatar.jpg')
+    }
+  },
+  methods: {
+    gitFun () {
+      let userInfo = window.localStorage.getItem('login-info')
+      let token = userInfo ? JSON.parse(userInfo).token : null
+      // console.log(token)
+
+      token && this.$axios({
+        url: '/user/profile',
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then(res => {
+        console.log(res)
+        this.user = res.data.data
+      })
+    },
+    Msgfun (command) {
+      if (command === 'account') {
+
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/Qixiaotian/toutiao-team'
+      } else {
+        window.localStorage.clear()
+        this.$router.push('/')
+      }
+    }
+
+  },
+  created () {
+    this.gitFun()
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .header {
+    margin: 10px 0;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    .right {
+      display: flex;
+      align-items: center;
+      .right-input {
+        width: 200px;
+        margin-right: 5px;
+      }
+      img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin: 0 10px;
+      }
+    }
+  }
+</style>
