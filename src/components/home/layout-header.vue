@@ -42,12 +42,9 @@ export default {
   },
   methods: {
     gitFun () {
-      let userInfo = window.localStorage.getItem('login-info')
-      let token = userInfo ? JSON.parse(userInfo).token : null
-      // console.log(token)
-      token && this.$axios({
-        url: '/user/profile',
-        headers: { 'Authorization': `Bearer ${token}` }
+      this.$axios({
+        url: '/user/profile'
+
       }).then(res => {
         console.log(res)
         this.user = res.data.data
