@@ -71,10 +71,6 @@ export default {
           }).then(result => {
             window.localStorage.setItem('login-info', JSON.stringify(result.data))
             this.$router.push('./index')
-          }).catch(() => {
-            // 参数传入一定要使用
-            // message 是elementui的一个方法
-            this.$message({ message: '当前用户或者密码错误', type: 'warning' })
           })
         }
       })
