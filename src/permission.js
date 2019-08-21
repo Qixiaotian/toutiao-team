@@ -9,7 +9,7 @@ router.beforeEach(function (to, from, next) {
       if (userInfo.token) {
         next()
       } else {
-        next('/login')
+        next('/')
       }
     } else {
       next('/')

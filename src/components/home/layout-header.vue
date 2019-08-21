@@ -47,7 +47,7 @@ export default {
 
       }).then(res => {
         console.log(res)
-        this.user = res.data.data
+        this.user = res.data
       })
     },
     Msgfun (command) {

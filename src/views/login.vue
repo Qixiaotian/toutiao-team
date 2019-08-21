@@ -69,7 +69,7 @@ export default {
             url: '/authorizations',
             data: this.formData
           }).then(result => {
-            window.localStorage.setItem('login-info', JSON.stringify(result.data.data))
+            window.localStorage.setItem('login-info', JSON.stringify(result.data))
             this.$router.push('./index')
           }).catch(() => {
             // 参数传入一定要使用
