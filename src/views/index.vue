@@ -10,7 +10,9 @@
           <el-header>
             <lay-header></lay-header>
           </el-header>
-          <el-main>中间区</el-main>
+          <el-main>
+            <router-view></router-view>
+          </el-main>
       </el-container>
   </el-container>
 </template>
@@ -18,10 +20,6 @@
 <script>
 
 export default {
-  components: {
-
-  }
-
 }
 </script>
 

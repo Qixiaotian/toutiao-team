@@ -18,7 +18,7 @@
 
         <el-dropdown trigger="click" @command=Msgfun>
           <span class="el-dropdown-link">
-            {{user.name}}信息
+            {{user.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown" >
@@ -45,7 +45,6 @@ export default {
       let userInfo = window.localStorage.getItem('login-info')
       let token = userInfo ? JSON.parse(userInfo).token : null
       // console.log(token)
-
       token && this.$axios({
         url: '/user/profile',
         headers: { 'Authorization': `Bearer ${token}` }
@@ -56,7 +55,7 @@ export default {
     },
     Msgfun (command) {
       if (command === 'account') {
-
+        this.$axios.push('./home/account')
       } else if (command === 'git') {
         window.location.href = 'https://github.com/Qixiaotian/toutiao-team'
       } else {
