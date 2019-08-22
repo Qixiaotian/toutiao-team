@@ -1,7 +1,11 @@
 import axios from 'axios'
+import JSONBig from 'json-bigint'
 import { Message } from 'element-ui'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 // 将后台接口的地址给axios的baseURL
+axios.defaults.transformResponse = [function (data) {
+  return data ? JSONBig.parse(data) : {}
+}]
 axios.interceptors.request.use(function (config) {
   // 在请求之前请做一些业务处理工作 进行配置的注入
   let userInfo = window.localStorage.getItem('login-info')
