@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card>
+    <el-card  v-loading="loading" >
       <bread-crumb slot="header">
         <template slot="title">评论列表</template>
       </bread-crumb>
@@ -44,7 +44,8 @@ export default {
         pageSize: 10,
         total: 0,
         currentPage: 1
-      }
+      },
+      loading: false
     }
   },
   methods: {
@@ -69,6 +70,7 @@ export default {
       })
     },
     getComment () {
+      this.loading = true
       let pageParams = { page: this.page.currentPage,
         per_page: this.page.pageSize } // 页码参数
       this.$axios({
@@ -80,6 +82,7 @@ export default {
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count // 文章评论列表总数 赋值给当前分页的总数
+        this.loading = false
       })
     },
     formatter (row, column, cellValue, index) {
