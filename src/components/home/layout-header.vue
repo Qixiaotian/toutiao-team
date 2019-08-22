@@ -5,12 +5,12 @@
         <i class="el-icon-s-unfold"></i>
         <span class="left-header">江苏传智播客教育科技股份有限公司</span>
       </el-col>
-      <el-col :span="8" class="right">
-        <el-tooltip content="请输入内容" placement="bottom">
+      <el-col :span="4" class="right">
+        <!-- <el-tooltip content="请输入内容" placement="bottom">
           <el-input v-model="zz" size="small" placeholder="请输入内容" class="right-input">
             <i class="el-icon-search el-input__icon" slot="prefix"></i>
           </el-input>
-        </el-tooltip>
+        </el-tooltip> -->
         <el-tooltip class="item" effect="dark" content="消息" placement="bottom">
           <span>消息</span>
         </el-tooltip>

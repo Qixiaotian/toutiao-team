@@ -20,7 +20,10 @@ export default new Router({
       name: 'index',
       component: Index,
       children: [
-        { path: '', component: Main }
+        { path: '', component: Main },
+        { path: '/index/comment',
+          component: () => import('./views/common/index-list.vue')
+        }
       ]
 
     }
