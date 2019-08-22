@@ -46,7 +46,7 @@ export default {
 <style lang="less" scoped>
 .asider {
       // width: 200px;
-      height: 100vh;
+      min-height: 100vh;
       background-color:#323745;
     .box{
       padding:10px 0;
