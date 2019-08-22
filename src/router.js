@@ -24,6 +24,9 @@ export default new Router({
         { path: '/index/comment',
           component: () => import('./views/common/index-list.vue')
 
+        },
+        { path: '/index/material',
+          component: () => import('./views/material/index.vue')
         }
 
       ]
