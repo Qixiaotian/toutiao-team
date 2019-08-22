@@ -21,6 +21,16 @@
           </template>
         </el-table-column>
       </el-table>
+       <el-row type="flex" justify="center" style="margin:20px 0">
+      <el-pagination
+        :page-size="page.pageSize"
+        :total="page.total"
+        :current-page="page.currentPage"
+        @current-change="changePage"
+        background
+        layout="prev, pager, next"
+      ></el-pagination>
+    </el-row>
     </el-card>
   </div>
 </template>
@@ -29,10 +39,20 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      page: {
+        pageSize: 10,
+        total: 0,
+        currentPage: 1
+      }
     }
   },
   methods: {
+    changePage (newPage) {
+      // 用最新页码区查询
+      this.page.currentPage = newPage // 将当前最新页码赋值给data中的变量
+      this.getComments() // 获取当前newPage的数据
+    },
     closeOrOpen (row) {
       let mess = row.comment_status ? '关闭' : '打开'
       console.log(mess)
@@ -49,13 +69,17 @@ export default {
       })
     },
     getComment () {
+      let pageParams = { page: this.page.currentPage,
+        per_page: this.page.pageSize } // 页码参数
       this.$axios({
         url: '/articles',
         params: {
-          response_type: 'comment'
+          response_type: 'comment',
+          ...pageParams
         }
       }).then(result => {
         this.list = result.data.results
+        this.page.total = result.data.total_count // 文章评论列表总数 赋值给当前分页的总数
       })
     },
     formatter (row, column, cellValue, index) {

@@ -23,10 +23,13 @@ export default new Router({
         { path: '', component: Main },
         { path: '/index/comment',
           component: () => import('./views/common/index-list.vue')
+
         }
+
       ]
 
     }
+
     // {
     //   path: '/about',
     //   name: 'about',
