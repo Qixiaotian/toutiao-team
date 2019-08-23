@@ -141,7 +141,7 @@ export default {
     .img-card {
       width: 200px;
       height: 200px;
-      margin: 20px 10px;
+      margin: 10px 10px;
       position: relative;
 
       img {

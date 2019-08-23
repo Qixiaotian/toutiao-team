@@ -1,7 +1,6 @@
 <template>
   <div class="asider" >
     <div class="box" >
-
           <img src="../../assets/img/logo_admin.png" alt="">
     </div>
     <el-menu background-color="#353b4e" text-color="#adafb5" active-text-color="#ffd04b" router>

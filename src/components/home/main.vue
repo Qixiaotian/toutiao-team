@@ -14,6 +14,5 @@ export default {
      height: 92vh;
      background-image: url("../../assets/img/home.jpg");
      background-size: cover;
-
   }
 </style>
