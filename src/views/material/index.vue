@@ -1,8 +1,11 @@
 <template>
-  <el-card>
-    <bread-crumb>
+  <el-card  style="position: relative">
+    <bread-crumb slot="header">
       <template slot="tilte">素材管理</template>
     </bread-crumb>
+    <el-upload class="upload-img" action="" :http-request="uploadImg" :show-file-list='false'>
+      <el-button type="primary">上传图片</el-button>
+    </el-upload>
     <el-tabs v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部图片" name="all">
         <div class="img-list">
@@ -50,6 +53,7 @@
   </el-card>
 </template>
 <script>
+
 export default {
   data () {
     return {
@@ -63,6 +67,17 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) {
+      let formData = new FormData()
+      formData.append('image', params.file)
+      this.$axios({
+        method: 'post',
+        url: '/user/images',
+        data: formData
+      }).then(result => {
+        this.getMaterial()
+      })
+    },
     collectFun (item) {
       let mess = item.is_colleted ? '取消收藏' : '收藏'
       this.$confirm('您是否是' + mess + '收藏图片?', '提示').then(() => {
@@ -117,15 +132,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
   .img-list {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+
     .img-card {
       width: 200px;
       height: 200px;
       margin: 20px 10px;
       position: relative;
+
       img {
         width: 100%;
         height: 100%;
@@ -143,4 +161,8 @@ export default {
       }
     }
   }
+.upload-img{
+      position: absolute;
+      right: 50px;
+      top:60px  }
 </style>
