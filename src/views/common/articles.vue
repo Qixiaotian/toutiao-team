@@ -1,58 +1,63 @@
 <template>
-  <el-card slot="header">
-    <bread-crumb>
+  <el-card>
+    <bread-crumb slot="header">
       <template slot="title">内容列表</template>
     </bread-crumb>
-    <el-form class="formDate">
-      <el-form-item label="文章状态">
-        <el-radio-group v-model="formData" @change="reset">
+    <el-form>
+      <el-form-item label="内容列表">
+        <el-radio-group v-model="formData.status" >
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
           <el-radio :label="1">待审核</el-radio>
-          <el-radio :label="2">审核通过</el-radio>
+          <el-radio :label="2">审核成功</el-radio>
           <el-radio :label="3">审核失败</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="频道列表">
-        <el-select v-model="formData" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :label="item.label"
-            :value="item.value"
-            :key="item.value"
-          ></el-option>
-        </el-select>
+        <template>
+          <el-select v-model="formData.channel_id">
+            <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          </el-select>
+        </template>
       </el-form-item>
       <el-form-item label="时间选择">
         <el-date-picker
-          v-model="value1"
+          style="width:400px"
+
+          value-format="yyyy-MM-dd"
+          v-model="formData.dateRange"
           type="daterange"
-          start-placeholder="开始月份"
-          end-placeholder="结束月份"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
     </el-form>
-    <div class="total_title">共找到56789条符合条件的内容</div>
-    <div class="content-list">
+    <div class="total_title">共找到条符合条件的内容</div>
+    <div class="content-list" >
       <div class="content-item" v-for="(item,index) in list" :key="index">
         <div class="left">
-          <img src="../../assets/img/404.png" alt />
+          <img :src="item.cover.images[0]" alt />
           <div class="info">
-            <span>我是内容标题</span>
-            <el-tag type="width:60px">标签一</el-tag>
-            <span class="data">2019-08-22 17:21:31</span>
+            <span>{{item.title}}</span>
+            <el-tag style="width:60px">已发表</el-tag>
+            <span class="date">2019-08-23 20:47:52</span>
           </div>
         </div>
         <div class="right">
-          <span>
-            <i class="el-icon-edit"></i>修改
+          <span style="cursor:pointer">
+            <i class="el-icon-edit"></i>
+            修改
           </span>
-          <span>
-            <i class="el-icon-delete"></i>删除
+          <span style="cursor:pointer">
+            <i class="el-icon-delete"></i>
+            删除
           </span>
         </div>
       </div>
     </div>
+    <el-row type="flex" justify="center" style="margin:20px 0">
+      <el-pagination background layout="prev, pager, next" :total="10"></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -60,36 +65,45 @@
 export default {
   data () {
     return {
-      radio: 1,
-      value: '',
-      value1: '',
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        },
-        {
-          value: '选项2',
-          label: '双皮奶'
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎'
-        },
-        {
-          value: '选项4',
-          label: '龙须面'
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
-      list: [1, 2, 3]
+      formData: {
+        status: 5, // 默认是全部
+        channel_id: null, // 定义频道id 当前选择的频道
+        dateRange: null // 时间范围 是个数组
+      },
+      channels: [], // 频道数据
+      list: [], // 内容列表
+      page: {
+        total: 0,
+        pageSize: 10,
+        currentPage: 1
+      }
     }
+  },
+  methods: {
+    getAtricles () {
+      let { status, channel_id: cid, dateRange } = this.formData
+      let params = {
+        // key:value(三元表达式)
+        status: status === 5 ? null : status, // 由于默认给了5 但是如果是5的话  不能传 所以这里特殊处理一下
+        channel_id: cid,
+        // (三元表达式)
+        begin_pubdate: dateRange && dateRange.length ? dateRange[0] : null,
+        end_pubdate: dateRange && dateRange.length > 1 ? dateRange[1] : null
+      }
+      this.$axios({
+        url: '/articles',
+        params: { ...params }
+      }).then(result => {
+        this.list = result.data.results
+      })
+    }
+  },
+  created () {
+    this.getAtricles()
   }
 }
 </script>
+
 <style lang="less" scoped>
   .total_title {
     height: 60px;
@@ -117,20 +131,21 @@ export default {
           padding: 5px 0;
           flex-direction: column;
           justify-content: space-between;
-          .data{
-              color:#999;
-              font-size: 12px;
+          .date {
+            color: #999;
+            font-size: 12px;
           }
         }
       }
       .right {
-          span,span i {
-              font-size: 12px;
-              color: #333;
-          }
-          span{
-              margin-right: 5px
-          }
+        span,
+        span i {
+          font-size: 12px;
+          color: #333;
+        }
+        span {
+          margin-right: 5px;
+        }
       }
     }
   }
