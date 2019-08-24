@@ -32,7 +32,7 @@ export default new Router({
           component: () => import('./views/common/articles.vue')
         },
         { path: '/index/publish',
-          component: () => import('./views/publish/acticle.vue')
+          component: () => import('./views/publish')
         }
 
       ]

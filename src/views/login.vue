@@ -45,13 +45,13 @@ export default {
       },
       rules: {
         mobile: [ {
-          required: true, message: '输入不能为空', trigger: 'blur'
+          required: true, message: '输入不能为空', trigger: 'change'
         }, {
-          pattern: /^1[3456789]\d{9}$/, message: '号码格式不正确', trigger: 'blur'
+          pattern: /^1[3456789]\d{9}$/, message: '号码格式不正确'
         }
         ],
         code: [
-          { required: true, message: '输入验证码不能为空', trigger: 'blur' },
+          { required: true, message: '输入验证码不能为空', trigger: 'change' },
           { pattern: /^\d{6}$/, message: '验证码格式不正确', trigger: 'blur' }
         ],
         check: [

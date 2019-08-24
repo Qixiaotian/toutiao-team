@@ -39,8 +39,11 @@
           <img :src="item.cover.images[0]" alt />
           <div class="info">
             <span>{{item.title}}</span>
-            <el-tag style="width:60px">已发表</el-tag>
-            <span class="date">2019-08-23 20:47:52</span>
+            <el-tag
+              style="width:60px"
+              :type="item.status | statusType "
+            >{{ item.status | statusText }}</el-tag>
+            <span class="datety">{{item.pubdate}}</span>
           </div>
         </div>
         <div class="right">
@@ -138,8 +141,34 @@ export default {
     }
   },
   created () {
-    this.getAtricles()
+    this.getAtricles({ page: 1, per_page: 10 })
     this.getChannels()
+  },
+  filters: {
+    statusText (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 2:
+          return '已发表'
+        case 3:
+          return '未审核'
+        case 4:
+          return '已删除'
+      }
+    },
+    statusType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 2:
+          return 'success'
+        case 3:
+          return 'danger'
+        case 4:
+          return 'info'
+      }
+    }
   }
 }
 </script>
@@ -170,7 +199,7 @@ export default {
           padding: 5px 0;
           flex-direction: column;
           justify-content: space-between;
-          .date {
+          .datety {
             color: #999;
             font-size: 12px;
           }
