@@ -5,7 +5,7 @@
     </bread-crumb>
     <el-form>
       <el-form-item label="内容列表">
-        <el-radio-group v-model="formData.status" >
+        <el-radio-group v-model="formData.status" @change="resetPage" >
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
           <el-radio :label="1">待审核</el-radio>
@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="频道列表">
         <template>
-          <el-select v-model="formData.channel_id">
+          <el-select v-model="formData.channel_id"  @change="resetPage">
             <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </template>
@@ -23,7 +23,7 @@
       <el-form-item label="时间选择">
         <el-date-picker
           style="width:400px"
-
+           @change="resetPage"
           value-format="yyyy-MM-dd"
           v-model="formData.dateRange"
           type="daterange"
@@ -32,7 +32,7 @@
         ></el-date-picker>
       </el-form-item>
     </el-form>
-    <div class="total_title">共找到条符合条件的内容</div>
+    <div class="total_title">共找到{{page.total}}条符合条件的内容</div>
     <div class="content-list" >
       <div class="content-item" v-for="(item,index) in list" :key="index">
         <div class="left">
@@ -56,7 +56,7 @@
       </div>
     </div>
     <el-row type="flex" justify="center" style="margin:20px 0">
-      <el-pagination background layout="prev, pager, next" :total="10"></el-pagination>
+      <el-pagination background layout="prev, pager, next" :total="page.total" :current-page="page.currentPage" :page-size="page.pageSize"  @current-change="chandPage"></el-pagination>
     </el-row>
   </el-card>
 </template>
@@ -80,7 +80,7 @@ export default {
     }
   },
   methods: {
-    getAtricles () {
+    getConditions () {
       let { status, channel_id: cid, dateRange } = this.formData
       let params = {
         // key:value(三元表达式)
@@ -89,17 +89,42 @@ export default {
         // (三元表达式)
         begin_pubdate: dateRange && dateRange.length ? dateRange[0] : null,
         end_pubdate: dateRange && dateRange.length > 1 ? dateRange[1] : null
+
       }
+      params.page = this.page.currentPage
+      params.per_page = this.page.pageSize
+      return params
+    },
+    resetPage () {
+      this.page.currentPage = 1
+      this.getAtricles(this.getConditions())
+    },
+    chandPage (newPage) {
+      this.page.currentPage = newPage
+      this.getAtricles(this.getConditions())
+    },
+    getAtricles (params) {
       this.$axios({
         url: '/articles',
         params: { ...params }
       }).then(result => {
         this.list = result.data.results
+        this.page.total = result.data.total_count
+        console.log(this.page.total
+        )
+      })
+    },
+    getChannels () {
+      this.$axios({
+        url: '/channels'
+      }).then(result => {
+        this.channels = result.data.channels
       })
     }
   },
   created () {
     this.getAtricles()
+    this.getChannels()
   }
 }
 </script>
