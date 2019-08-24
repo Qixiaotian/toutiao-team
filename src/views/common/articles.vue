@@ -5,7 +5,7 @@
     </bread-crumb>
     <el-form>
       <el-form-item label="内容列表">
-        <el-radio-group v-model="formData.status" @change="resetPage" >
+        <el-radio-group v-model="formData.status" @change="resetPage">
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
           <el-radio :label="1">待审核</el-radio>
@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="频道列表">
         <template>
-          <el-select v-model="formData.channel_id"  @change="resetPage">
+          <el-select v-model="formData.channel_id" @change="resetPage">
             <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </template>
@@ -23,7 +23,7 @@
       <el-form-item label="时间选择">
         <el-date-picker
           style="width:400px"
-           @change="resetPage"
+          @change="resetPage"
           value-format="yyyy-MM-dd"
           v-model="formData.dateRange"
           type="daterange"
@@ -33,7 +33,7 @@
       </el-form-item>
     </el-form>
     <div class="total_title">共找到{{page.total}}条符合条件的内容</div>
-    <div class="content-list" >
+    <div class="content-list">
       <div class="content-item" v-for="(item,index) in list" :key="index">
         <div class="left">
           <img :src="item.cover.images[0]" alt />
@@ -48,7 +48,7 @@
             <i class="el-icon-edit"></i>
             修改
           </span>
-          <span style="cursor:pointer">
+          <span style="cursor:pointer" @click="delList(item)">
             <i class="el-icon-delete"></i>
             删除
           </span>
@@ -56,7 +56,14 @@
       </div>
     </div>
     <el-row type="flex" justify="center" style="margin:20px 0">
-      <el-pagination background layout="prev, pager, next" :total="page.total" :current-page="page.currentPage" :page-size="page.pageSize"  @current-change="chandPage"></el-pagination>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="page.total"
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
+        @current-change="chandPage"
+      ></el-pagination>
     </el-row>
   </el-card>
 </template>
@@ -80,6 +87,16 @@ export default {
     }
   },
   methods: {
+    delList (item) {
+      this.$confirm('您确定删除此条信息吗?', '提示').then(() => {
+        this.$axios({
+          url: `articles/${item.id.toString()}`,
+          method: 'delete'
+        }).then(() => {
+          this.getAtricles(this.getConditions())
+        })
+      })
+    },
     getConditions () {
       let { status, channel_id: cid, dateRange } = this.formData
       let params = {
@@ -89,7 +106,6 @@ export default {
         // (三元表达式)
         begin_pubdate: dateRange && dateRange.length ? dateRange[0] : null,
         end_pubdate: dateRange && dateRange.length > 1 ? dateRange[1] : null
-
       }
       params.page = this.page.currentPage
       params.per_page = this.page.pageSize
@@ -110,8 +126,7 @@ export default {
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count
-        console.log(this.page.total
-        )
+        console.log(this.page.total)
       })
     },
     getChannels () {
@@ -128,7 +143,6 @@ export default {
   }
 }
 </script>
-
 <style lang="less" scoped>
   .total_title {
     height: 60px;
