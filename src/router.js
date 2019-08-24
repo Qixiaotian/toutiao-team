@@ -30,6 +30,9 @@ export default new Router({
         },
         { path: '/index/articles',
           component: () => import('./views/common/articles.vue')
+        },
+        { path: '/index/publish',
+          component: () => import('./views/publish/acticle.vue')
         }
 
       ]
