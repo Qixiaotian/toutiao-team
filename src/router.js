@@ -33,6 +33,10 @@ export default new Router({
         },
         { path: '/index/publish',
           component: () => import('./views/publish')
+        },
+        //  编辑文章 后面绑定动态路由
+        { path: '/index/publish/:articleId',
+          component: () => import('./views/publish')
         }
 
       ]

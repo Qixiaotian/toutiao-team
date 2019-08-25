@@ -8,14 +8,15 @@
         <el-input placeholder="请输入内容" class="title" v-model="formData.title">请输入内容</el-input>
       </el-form-item>
       <el-form-item label="内容" prop="content">
-        <el-input
-          class="input-area"
-          type="textarea"
-          :rows="6"
-          placeholder="请输入内容"
+        <quill-editor
           v-model="formData.content"
-        ></el-input>
+          style="width:800px;height:200px;margin-bottom:80px;margin-left:50px"
+          type="textarea"
+          :rows="4"
+          placeholder="请输入内容"
+        ></quill-editor>
       </el-form-item>
+
       <el-form-item label="封面" prop="cover">
         <el-radio-group v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
@@ -23,7 +24,7 @@
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
-<el-upload
+        <!-- <el-upload
   class="avatar-uploader"
   action="https://jsonplaceholder.typicode.com/posts/"
   :show-file-list="false"
@@ -31,7 +32,7 @@
   :before-upload="beforeAvatarUpload">
   <img v-if="imageUrl" :src="imageUrl" class="avatar">
   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
+        </el-upload>-->
       </el-form-item>
       <el-form-item label="频道">
         <template>
@@ -42,7 +43,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="checkData(false)">发表</el-button>
-        <el-button @click="checkData(true)">存入草稿</el-button>
+        <el-button @click="checkData(!draft)">存入草稿</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -82,22 +83,35 @@ export default {
         this.list = result.data.channels
       })
     },
-    checkData (s = false) {
+    checkData (draft) {
       this.$refs.formdate.validate(isok => {
         if (isok) {
+          let { articleId } = this.$route.params
+          let method = articleId ? 'put' : 'post'
+          let url = articleId ? `/articles/${articleId}` : '/articles'
           this.$axios({
-            method: 'post',
-            url: '/articles',
-            params: { draft: s },
+            method,
+            url,
+            params: { draft },
             data: this.formData
           }).then(result => {
             this.$router.push('/index/articles')
           })
         }
       })
+    },
+    getArticleById () {
+      let { articleId } = this.$route.params
+      this.$axios({
+        url: `/articles/${articleId}`
+      }).then(result => {
+        this.formData = result.data // 绑定数据
+      })
     }
   },
   created () {
+    let { articleId } = this.$route.params
+    articleId && this.getArticleById()
     this.getChannels()
   }
 }
@@ -113,28 +127,28 @@ export default {
     .input-area {
       width: 1000px;
     }
-.avatar-uploader .el-upload {
-    border: 2px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+    // .avatar-uploader .el-upload {
+    //     border: 2px dashed #d9d9d9;
+    //     border-radius: 6px;
+    //     cursor: pointer;
+    //     position: relative;
+    //     overflow: hidden;
+    //   }
+    //   .avatar-uploader .el-upload:hover {
+    //     border-color: #409EFF;
+    //   }
+    //   .avatar-uploader-icon {
+    //     font-size: 28px;
+    //     color: #8c939d;
+    //     width: 178px;
+    //     height: 178px;
+    //     line-height: 178px;
+    //     text-align: center;
+    //   }
+    //   .avatar {
+    //     width: 178px;
+    //     height: 178px;
+    //     display: block;
+    //   }
   }
 </style>

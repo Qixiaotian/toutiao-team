@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="right">
-          <span style="cursor:pointer">
+          <span style="cursor:pointer" @click="editFun(item)">
             <i class="el-icon-edit"></i>
             修改
           </span>
@@ -90,6 +90,9 @@ export default {
     }
   },
   methods: {
+    editFun (item) {
+      this.$router.push(`publish/${item.id.toString()}`)
+    },
     delList (item) {
       this.$confirm('您确定删除此条信息吗?', '提示').then(() => {
         this.$axios({
