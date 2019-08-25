@@ -18,7 +18,7 @@
       </el-form-item>
 
       <el-form-item label="封面" prop="cover">
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group v-model="formData.cover.type" @change="changeType">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="2">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
@@ -33,6 +33,9 @@
   <img v-if="imageUrl" :src="imageUrl" class="avatar">
   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>-->
+      </el-form-item>
+      <el-form-item>
+        <cover-image></cover-image>
       </el-form-item>
       <el-form-item label="频道">
         <template>
@@ -76,6 +79,17 @@ export default {
     }
   },
   methods: {
+    // 获取最新的封面类型
+    // 去改变当前的images类型
+    changeType () {
+      if (this.formData.cover.type === 1) {
+        this.formData.cover.images = ['']
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', '']
+      } else {
+        this.formData.cover.images = []
+      }
+    },
     getChannels () {
       this.$axios({
         url: '/channels'
