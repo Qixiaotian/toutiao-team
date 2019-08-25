@@ -25,8 +25,6 @@
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
         <!-- <el-upload
-  class="avatar-uploader"
-  action="https://jsonplaceholder.typicode.com/posts/"
   :show-file-list="false"
   :on-success="handleAvatarSuccess"
   :before-upload="beforeAvatarUpload">
@@ -35,7 +33,8 @@
         </el-upload>-->
       </el-form-item>
       <el-form-item>
-        <cover-image :images="formData.cover.images"></cover-image>
+   <!-- 使用之前的封面组件 对imags的参数传入子组件中使用其参数 -->
+  <cover-image :images="formData.cover.images"></cover-image>
       </el-form-item>
       <el-form-item label="频道">
         <template>
