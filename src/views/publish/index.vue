@@ -20,7 +20,7 @@
       <el-form-item label="封面" prop="cover">
         <el-radio-group v-model="formData.cover.type" @change="changeType">
           <el-radio :label="1">单图</el-radio>
-          <el-radio :label="2">三图</el-radio>
+          <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
@@ -35,7 +35,7 @@
         </el-upload>-->
       </el-form-item>
       <el-form-item>
-        <cover-image></cover-image>
+        <cover-image :images="formData.cover.images"></cover-image>
       </el-form-item>
       <el-form-item label="频道">
         <template>
