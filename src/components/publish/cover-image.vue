@@ -6,9 +6,9 @@
       <img :src="item?item:defaultImg" alt />
     </div>
     <!--  在点击图片进行一个弹层提示 -->
-    <el-dialog :visible="showDialog" @close="showDialog=false">
+    <el-dialog :visible="showDialog" @close="showDialog=false" >
       <!-- 弹层里面的功能十分复杂所以放在一个新的组件当中 -->
-      <select-images></select-images>
+      <select-images @selectImg="selectedImg"></select-images>
     </el-dialog>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
   props: ['images'],
   data () {
     return {
+      selectIndex: -1,
       showDialog: false,
       defaultImg: require('../../styles/imgs/pic_bg.png')
     }
@@ -25,6 +26,11 @@ export default {
   methods: {
     clickImg (index) {
       this.showDialog = true
+      this.selectIndex = index
+    },
+    selectedImg (url) {
+      this.showDialog = false
+      this.$emit('updateImages', url, this.selectIndex)
     }
   }
 }
