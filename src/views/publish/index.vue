@@ -34,7 +34,7 @@
       </el-form-item>
       <el-form-item>
    <!-- 使用之前的封面组件 对imags的参数传入子组件中使用其参数 -->
-  <cover-image :images="formData.cover.images"></cover-image>
+  <cover-image :images="formData.cover.images" :type="formData.cover.type" @updateImages=getData></cover-image>
       </el-form-item>
       <el-form-item label="频道">
         <template>
@@ -72,12 +72,19 @@ export default {
           { required: true, message: '内容不能为空' },
           { min: 5, max: 30, message: '输入放入字符在5到30之间' }
         ],
-        content: [{ required: true, message: '内容不能为空' }],
-        cover: [{ required: true, message: '内容不能为空' }]
+        content: [{ required: true, message: '内容不能为空' }]
+
       }
     }
   },
   methods: {
+    // 通过 子组件封面传过来的值 在本组件接受一下
+    getData (url, index) {
+      console.log(url, index)
+      this.formDate.cover.images = this.formData.cover.images.map((item, i) => {
+        return i === index ? url : item
+      })
+    },
     // 获取最新的封面类型
     // 去改变当前的images类型
     changeType () {

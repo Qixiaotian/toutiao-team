@@ -11,7 +11,7 @@
       </el-tab-pane>
       <el-tab-pane label="上传图片" name="upload"></el-tab-pane>
       <el-row type="flex" justify="center">
-        <el-pagination :page-size="page.pageSize" :current-page="currenrPage" :total="page.total" @current-change="changePage" ></el-pagination>
+        <el-pagination :page-size="page.pageSize" :current-page="page.currentPage" :total="page.total" @current-change="changePage" ></el-pagination>
       </el-row>
     </el-tabs>
   </el-card>
