@@ -37,6 +37,9 @@ export default new Router({
         //  编辑文章 后面绑定动态路由
         { path: '/index/publish/:articleId',
           component: () => import('./views/publish')
+        },
+        { path: '/index/fansData',
+          component: () => import('./views/pieCharts')
         }
 
       ]

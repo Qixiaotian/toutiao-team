@@ -26,6 +26,7 @@ export default {
   methods: {
     clickImg (index) {
       this.showDialog = true
+      console.log('图片地址:' + index)
       this.selectIndex = index
     },
     selectedImg (url) {

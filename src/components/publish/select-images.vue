@@ -8,11 +8,21 @@
             <img :src="item.url" @click="selectImg(item)" alt />
           </el-card>
         </div>
+      <el-row type="flex" justify="center">
+        <el-pagination
+          :page-size="page.pageSize"
+          :current-page="page.currentPage"
+          :total="page.total"
+          @current-change="changePage"
+        ></el-pagination>
+      </el-row>
       </el-tab-pane>
       <el-tab-pane label="上传图片" name="upload"></el-tab-pane>
-      <el-row type="flex" justify="center">
-        <el-pagination :page-size="page.pageSize" :current-page="page.currentPage" :total="page.total" @current-change="changePage" ></el-pagination>
-      </el-row>
+      <el-tab-pane>
+        <el-upload :show-file-list="false" action="">
+          <i class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-tab-pane>
     </el-tabs>
   </el-card>
 </template>
@@ -59,19 +69,32 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .material-list{
-      display: flex;
-      flex-wrap:wrap;
-      justify-content: space-around;
-      .material-item{
-        margin:5px 0 ;
-        width:150px;
-        height: 150px;
-        border-radius: 4px;
-        img{
-           width: 100%;
-           height: 100%;
-        }
+  .material-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    .material-item {
+      margin: 5px 0;
+      width: 150px;
+      height: 150px;
+      border-radius: 4px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+      .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+      }
+      .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
       }
   }
 </style>

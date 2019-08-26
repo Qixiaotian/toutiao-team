@@ -24,17 +24,14 @@
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
-        <!-- <el-upload
-  :show-file-list="false"
-  :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>-->
       </el-form-item>
       <el-form-item>
-   <!-- 使用之前的封面组件 对imags的参数传入子组件中使用其参数 -->
-  <cover-image :images="formData.cover.images" :type="formData.cover.type" @updateImages=getData></cover-image>
+        <!-- 使用之前的封面组件 对imags的参数传入子组件中使用其参数 -->
+        <cover-image
+          :images="formData.cover.images"
+          :type="formData.cover.type"
+          @updateImages="getData"
+        ></cover-image>
       </el-form-item>
       <el-form-item label="频道">
         <template>
@@ -73,7 +70,6 @@ export default {
           { min: 5, max: 30, message: '输入放入字符在5到30之间' }
         ],
         content: [{ required: true, message: '内容不能为空' }]
-
       }
     }
   },
@@ -81,7 +77,7 @@ export default {
     // 通过 子组件封面传过来的值 在本组件接受一下
     getData (url, index) {
       console.log(url, index)
-      this.formDate.cover.images = this.formData.cover.images.map((item, i) => {
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => {
         return i === index ? url : item
       })
     },
@@ -96,6 +92,7 @@ export default {
         this.formData.cover.images = []
       }
     },
+    // 获取当前频道数据
     getChannels () {
       this.$axios({
         url: '/channels'
@@ -103,6 +100,7 @@ export default {
         this.list = result.data.channels
       })
     },
+    // 根据当前接口一口四用
     checkData (draft) {
       this.$refs.formdate.validate(isok => {
         if (isok) {
@@ -120,6 +118,7 @@ export default {
         }
       })
     },
+    // 接收上面组件传递的参数
     getArticleById () {
       let { articleId } = this.$route.params
       this.$axios({
@@ -147,28 +146,6 @@ export default {
     .input-area {
       width: 1000px;
     }
-    // .avatar-uploader .el-upload {
-    //     border: 2px dashed #d9d9d9;
-    //     border-radius: 6px;
-    //     cursor: pointer;
-    //     position: relative;
-    //     overflow: hidden;
-    //   }
-    //   .avatar-uploader .el-upload:hover {
-    //     border-color: #409EFF;
-    //   }
-    //   .avatar-uploader-icon {
-    //     font-size: 28px;
-    //     color: #8c939d;
-    //     width: 178px;
-    //     height: 178px;
-    //     line-height: 178px;
-    //     text-align: center;
-    //   }
-    //   .avatar {
-    //     width: 178px;
-    //     height: 178px;
-    //     display: block;
-    //   }
+
   }
 </style>
