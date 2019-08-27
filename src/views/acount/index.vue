@@ -37,6 +37,9 @@
       <el-form-item label="邮箱" style="border-bottom:1px solid #ccc;padding-bottom:20px" prop="emali">
         <el-input style="margin-left:145px;width:300px" v-model="formData.email" >{{formData.emali}}</el-input>
       </el-form-item>
+      <el-form-item>
+          <el-button type="primary" @click="userInfo">提交保存</el-button>
+      </el-form-item>
     </el-form>
   </el-card>
 </template>
@@ -74,6 +77,20 @@ export default {
     }
   },
   methods: {
+    userInfo () {
+      this.$confirm('确认保存', '提示').then(() => {
+        this.$refs.myform.validate(isOk => {
+          isOk && this.$axios({
+            method: 'patch',
+            url: '/user/profile',
+            data: this.formData
+          }).then(result => {
+            this.$message({ message: '信息保存成功', type: 'success' })
+          })
+        })
+      })
+    },
+    // 发送请求渲染页面
     getData () {
       this.$axios({
         url: '/user/profile'
