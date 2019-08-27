@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -110,6 +111,7 @@ export default {
       }).then(res => {
         this.loading = false
         this.formData.photo = res.data.photo
+        eventBus.$emit('uploadEvent')
       })
     },
     // 编辑信息保存上传
@@ -124,6 +126,7 @@ export default {
             }).then(() => {
               this.$message({ message: '信息保存成功', type: 'success' })
             })
+          eventBus.$emit('uploadEvent')
         })
       })
     },

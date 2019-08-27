@@ -32,6 +32,7 @@
   </div>
 </template>
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -46,7 +47,7 @@ export default {
         url: '/user/profile'
 
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         this.user = res.data
       })
     },
@@ -64,6 +65,9 @@ export default {
   },
   created () {
     this.gitFun()
+    eventBus.$on('uploadEvent', () => {
+      this.gitFun()
+    })
   }
 }
 </script>
