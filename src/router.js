@@ -40,6 +40,9 @@ export default new Router({
         },
         { path: '/index/fansData',
           component: () => import('./views/pieCharts')
+        },
+        { path: '/index/account',
+          component: () => import('./views/acount')
         }
 
       ]
