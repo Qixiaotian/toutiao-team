@@ -17,7 +17,7 @@
         <el-form-item label="个人简介" label-width="200px" prop="text">
           <el-input style="width:300px" v-model="formData.intro"></el-input>
         </el-form-item>
-        <el-upload class="stimg" show-file-list="false" action :http-request="uploadImg">
+        <el-upload class="stimg" :show-file-list='false' action :http-request="uploadImg">
           <img :src="formData.photo?formData.photo:defaultImg" alt />
           <a href="javascript:" class="edit">修改图片</a>
         </el-upload>
@@ -79,7 +79,7 @@ export default {
             required: true,
             message: '内容不能输入为空哦'
           },
-          { min: 3, max: 6, message: '输入的字符必须是在3到6个字符之间' }
+          { min: 1, max: 7, message: '输入的字符必须是在1到7个字符之间' }
         ],
         intro: [
           { required: true, message: '内容不能输入为空哦' },
