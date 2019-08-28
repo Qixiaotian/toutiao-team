@@ -1,4 +1,4 @@
-import layAside from './components/home/layout-aside'
+import layAside from './components/home/layout-aside.vue'
 import layHeader from './components/home/layout-header.vue'
 // 注册面包屑组件
 import breadCrumb from './components/common/bread-crumb'

@@ -1,7 +1,7 @@
 <template>
   <!-- 最外层容器大 -->
   <el-container>
-    <el-aside style="width:200px;">
+    <el-aside style="width:200px;min-height:100vh;background-color:#323745">
       <lay-aside></lay-aside>
     </el-aside>
     <el-container>

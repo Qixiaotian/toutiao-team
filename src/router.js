@@ -3,12 +3,11 @@ import Router from 'vue-router'
 import Index from './views/index.vue'
 import Login from './views/login.vue'
 import Main from './components/home/main'
-
-// import dee from './components/HelloWorld'
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    { path: '*', component: () => import('./views/404.vue') },
     {
       path: '/',
       name: 'login',

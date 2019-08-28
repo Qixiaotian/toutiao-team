@@ -2,12 +2,12 @@
   <div>
     <el-row class="header" type="flex" justify="space-between">
       <el-col :span="12">
-        <i class="el-icon-s-unfold"></i>
+        <i class="el-icon-s-unfold" @click="openOrClose"></i>
         <span class="left-header">江苏传智播客教育科技股份有限公司</span>
       </el-col>
       <el-col :span="4" class="right">
-        <!-- <el-tooltip content="请输入内容" placement="bottom">
-          <el-input v-model="zz" size="small" placeholder="请输入内容" class="right-input">
+        <!-- <el-tooltip  placement="bottom">
+          <el-input size="small" placeholder="请输入内容" class="right-input">
             <i class="el-icon-search el-input__icon" slot="prefix"></i>
           </el-input>
         </el-tooltip> -->
@@ -34,6 +34,7 @@
 <script>
 import eventBus from '../../utils/eventBus'
 export default {
+
   data () {
     return {
       user: {
@@ -42,6 +43,9 @@ export default {
     }
   },
   methods: {
+    openOrClose () {
+      eventBus.$emit('openOrClose') // 触发的事件将联动左侧栏目进行响应的改变
+    },
     gitFun () {
       this.$axios({
         url: '/user/profile'
@@ -53,7 +57,7 @@ export default {
     },
     Msgfun (command) {
       if (command === 'account') {
-        this.$axios.push('./home/account')
+        this.$axios.push('./index/account')
       } else if (command === 'git') {
         window.location.href = 'https://github.com/Qixiaotian/toutiao-team'
       } else {
